@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primeros Pasos — StockPro</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; line-height: 1.6; color: #1a1a1a; }
+  h1 { font-size: 1.6em; margin-bottom: 4px; }
+  h2 { font-size: 1.15em; margin-top: 2.2em; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; color: #0d47a1; }
+  h3 { font-size: 1em; margin-top: 1.6em; margin-bottom: 0.4em; }
+  .updated { color: #666; font-size: 0.9em; margin-bottom: 2em; }
+  .step-badge { display: inline-block; background: #0d47a1; color: #fff; border-radius: 50%; width: 24px; height: 24px; text-align: center; line-height: 24px; font-size: 0.85em; font-weight: 600; margin-right: 8px; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin-bottom: 4px; }
+  a { color: #0a5cd8; }
+  code { background: #f1f3f5; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre { background: #f1f3f5; border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-size: 0.85em; line-height: 1.5; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.9em; }
+  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
+  th { color: #555; font-weight: 600; }
+  .note { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 10px 14px; margin: 1em 0; font-size: 0.92em; }
+  .warn { background: #fdecea; border: 1px solid #f5b7b1; border-radius: 8px; padding: 10px 14px; margin: 1em 0; font-size: 0.92em; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #e0e0e0; color: #666; font-size: 0.9em; }
+</style>
+</head>
+<body>
+
+<h1>Primeros Pasos en StockPro</h1>
+<p class="updated">Guía rápida para empezar a usar la app</p>
+
+<p>StockPro te permite armar un catálogo de referencia (el <strong>padrón de artículos</strong>), cargar tu inventario relevando productos por código de barras, y consultar o exportar esa información cuando quieras. Esta guía cubre las tres tareas más comunes al empezar: importar el padrón, agregar productos y buscar artículos.</p>
+
+<p>Todas las opciones mencionadas se encuentran en el menú principal (ícono <strong>☰</strong>, arriba a la derecha del Dashboard).</p>
+
+<h2><span class="step-badge">1</span>Importar el Padrón de Artículos</h2>
+
+<p>El padrón es tu catálogo de referencia: nombre, marca, unidad y precio de cada producto conocido. Se usa para autocompletar datos cuando escaneás un código al cargar inventario. <strong>No es tu inventario</strong> — es solo el listado de consulta.</p>
+
+<p><strong>Cómo importar:</strong> Menú → <em>Importar Padrón Artículos</em> → elegí el archivo (botones "JSON" o "CSV / Excel").</p>
+
+<div class="warn">
+<strong>Importante sobre Excel:</strong> el botón dice "CSV / Excel" pero la app solo lee archivos <code>.csv</code> de texto, no libros de Excel (<code>.xlsx</code>) directamente. Si tu padrón está en Excel o Google Sheets, guardalo primero como <em>CSV (delimitado por comas)</em> desde el propio programa (Archivo → Guardar como → CSV) y luego importá ese archivo.
+</div>
+
+<div class="warn">
+<strong>Importar reemplaza el padrón anterior:</strong> cada vez que importás un archivo, el padrón completo se borra y se reemplaza por el nuevo contenido. No se combinan ni se suman artículos. Esto <strong>no afecta tu inventario ya relevado</strong> (eso es independiente), pero si querés conservar el padrón anterior, exportalo o guardá una copia del archivo antes de reemplazarlo.
+</div>
+
+<h3>Formato CSV</h3>
+<ul>
+  <li>Separador: coma <code>,</code> o punto y coma <code>;</code> — se detecta automáticamente.</li>
+  <li>Encabezado: opcional. Si no hay encabezado reconocible, las columnas se leen por posición: <code>código de barras, nombre, marca, unidad, precio, descripción</code>.</li>
+  <li>Encabezados en español o inglés, mayúsculas o minúsculas — se detectan automáticamente (ver tabla).</li>
+  <li>Campos entre comillas (para valores con comas) y archivos exportados desde Excel con BOM UTF-8 son compatibles.</li>
+  <li>El precio acepta formato argentino (<code>1.500,00</code>), estadounidense (<code>1500.00</code>) o simple (<code>1500</code>).</li>
+  <li>El <strong>código de barras es obligatorio</strong> en cada fila; las filas sin código se descartan.</li>
+</ul>
+
+<table>
+<tr><th>Campo</th><th>Nombres de columna aceptados</th></tr>
+<tr><td>Código de barras</td><td><code>barCode, BARCODE, codigo, código, cod, ean, sku, codigobarras</code></td></tr>
+<tr><td>Nombre</td><td><code>name, nombre, descripcion, producto, articulo</code></td></tr>
+<tr><td>Marca</td><td><code>tradeMark, marca, brand</code></td></tr>
+<tr><td>Unidad</td><td><code>unit, unidad, udm, uom, medida</code></td></tr>
+<tr><td>Precio</td><td><code>price, precio, costo, cost, valor, pvp</code></td></tr>
+<tr><td>Descripción</td><td><code>description, descripcion, detalle, observaciones, obs, note</code></td></tr>
+</table>
+
+<p>Ejemplo de CSV válido:</p>
+<pre>barCode,name,tradeMark,unit,price,description
+7790001234567,Yerba Mate,La Merced,Paquete,1500,500g
+7790009876543,Aceite Girasol,Cocinero,Litro,2200,1L</pre>
+
+<h3>Formato JSON</h3>
+<p>Un array de objetos. Las claves también admiten variantes en mayúsculas/minúsculas (<code>barCode</code>, <code>BARCODE</code>, <code>Barcode</code>, etc.). Solo <code>barCode</code> es obligatorio.</p>
+<pre>[
+  {
+    "barCode": "7790001234567",
+    "name": "Yerba Mate",
+    "tradeMark": "La Merced",
+    "unit": "Paquete",
+    "price": 1500,
+    "description": "500g"
+  },
+  {
+    "barCode": "7790009876543",
+    "name": "Aceite Girasol",
+    "tradeMark": "Cocinero",
+    "unit": "Litro",
+    "price": 2200,
+    "description": "1L"
+  }
+]</pre>
+
+<h2><span class="step-badge">2</span>Agregar un Nuevo Producto/Item</h2>
+
+<p>Desde el Dashboard, tocá <em>Agregar</em> (botón +), o el botón <strong>+</strong> desde la lista de artículos.</p>
+
+<ol>
+  <li>Escribí o escaneá el <strong>código de barras</strong> (ícono de escáner en el campo). Si el código ya existe en el padrón importado, los campos se completan solos.</li>
+  <li>Si preferís buscarlo manualmente, usá el botón <em>Buscar en Padrón de Artículos</em> para elegirlo de una lista.</li>
+  <li>Completá o ajustá: <strong>Nombre</strong> (obligatorio), Marca, <strong>Precio</strong> (obligatorio), Cantidad, Cantidad por bulto, Unidad (desplegable: Unidad, Kg, Gramos, Litro, Mililitro, Caja, Paquete, Docena, Par, Metro, Rollo) y Descripción adicional.</li>
+  <li>Guardá con el botón ✓ (abajo a la derecha).</li>
+</ol>
+
+<div class="note">
+El plan gratuito tiene un límite de artículos cargados. Al acercarte al límite, la app te avisa y ofrece pasar a StockPro Premium para cargar sin restricciones.
+</div>
+
+<h2><span class="step-badge">3</span>Buscar un Producto en el Padrón</h2>
+
+<p>Menú → <em>Consulta Artículos</em>.</p>
+<ul>
+  <li>Buscá escribiendo nombre, marca o código, o tocá el ícono de escáner para buscar por código de barras.</li>
+  <li>Cada resultado muestra nombre, marca, código, unidad y precio.</li>
+  <li>Esta misma búsqueda está disponible dentro del formulario de "Agregar Producto", para elegir un artículo del padrón sin escanear.</li>
+</ul>
+
+<h2><span class="step-badge">4</span>Otros pasos recomendados</h2>
+
+<ul>
+  <li><strong>Exportar Datos</strong> (Menú → <em>Exportar Datos</em>): tu inventario relevado se guarda solo en el dispositivo, sin copia en la nube. Exportalo periódicamente para tener un respaldo.</li>
+  <li><strong>Importar Datos</strong> (Menú → <em>Importar Datos</em>): restaura un relevamiento previamente exportado — a diferencia del padrón, esto es tu inventario cargado, no el catálogo de referencia.</li>
+  <li><strong>Resetear Artículos</strong> (Menú → <em>Resetear Artículos</em>): vacía el inventario relevado. Es una acción destructiva, usala solo si querés empezar de cero.</li>
+  <li><strong>Gratis vs. Premium</strong>: el plan gratuito incluye publicidad y un límite de artículos; Premium elimina la publicidad y quita ese límite.</li>
+  <li><strong>Ayuda dentro de la app</strong> (Menú → <em>Ayuda</em>): preguntas frecuentes y contacto directo con soporte.</li>
+</ul>
+
+<footer>
+StockPro — <a href="index.html">Volver al inicio</a> · <a href="privacy.html">Privacidad</a> · <a href="terms.html">Términos</a>
+</footer>
+
+</body>
+</html>
